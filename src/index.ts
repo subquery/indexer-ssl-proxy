@@ -5,12 +5,19 @@ const proxy = httpProxy.createProxyServer({
   ignorePath: true,
 });
 
-proxy.on('proxyRes', function(proxyRes, req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-});
-
 const app = express();
 // TODO: check indexer and its url
+app.options('/:indexer', function(req, res) {
+  const {indexer} = req.params;
+  const {to} = req.query;
+  console.log('Request', to, indexer);
+  if (!indexer || !to) {
+    res.status(500).end();
+    return;
+  }
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  proxy.web(req, res, { target: to.toString() });
+});
 app.post('/:indexer', function(req, res) {
   const {indexer} = req.params;
   const {to} = req.query;
@@ -19,6 +26,7 @@ app.post('/:indexer', function(req, res) {
     res.status(500).end();
     return;
   }
+  res.setHeader('Access-Control-Allow-Origin', '*');
   proxy.web(req, res, { target: to.toString() });
 });
 
