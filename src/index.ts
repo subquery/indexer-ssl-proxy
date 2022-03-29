@@ -9,8 +9,10 @@ const app = express();
 // TODO: check indexer and its url
 app.options('/:indexer', function(req, res) {
   const {indexer} = req.params;
-  const {to} = req.query;
-  console.log('Request', to, indexer);
+  let {to} = req.query;
+  if (!to) {
+    to = req.headers.to;
+  }
   if (!indexer || !to) {
     res.status(500).end();
     return;
@@ -20,8 +22,10 @@ app.options('/:indexer', function(req, res) {
 });
 app.post('/:indexer', function(req, res) {
   const {indexer} = req.params;
-  const {to} = req.query;
-  console.log('Request', to, indexer);
+  let {to} = req.query;
+  if (!to) {
+    to = req.headers.to;
+  }
   if (!indexer || !to) {
     res.status(500).end();
     return;
