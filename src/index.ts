@@ -5,6 +5,10 @@ const proxy = httpProxy.createProxyServer({
   ignorePath: true,
 });
 
+proxy.on('proxyRes', function(proxyRes, req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+});
+
 const app = express();
 // TODO: check indexer and its url
 app.post('/:indexer', function(req, res) {
