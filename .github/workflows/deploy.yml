@@ -34,7 +34,7 @@ jobs:
         with:
           push: true
           platforms: arm64,amd64
-          file: ./packages/node/Dockerfile
+          file: ./Dockerfile
           tags: onfinality/indexer-ssl-proxy:v${GITHUB_SHA::7},onfinality/indexer-ssl-proxy:latest
 
       - name: Image digest
