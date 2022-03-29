@@ -13,6 +13,7 @@ app.options('/:indexer', function(req, res) {
   if (!to) {
     to = req.headers.to;
   }
+  console.log('Request', req.method, to, indexer);
   if (!indexer || !to) {
     res.status(500).end();
     return;
@@ -26,6 +27,7 @@ app.post('/:indexer', function(req, res) {
   if (!to) {
     to = req.headers.to;
   }
+  console.log('Request', req.method, to, indexer);
   if (!indexer || !to) {
     res.status(500).end();
     return;
