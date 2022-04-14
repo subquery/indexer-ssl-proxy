@@ -3,13 +3,14 @@ import httpProxy from 'http-proxy';
 
 const proxy = httpProxy.createProxyServer({
   ignorePath: true,
+  changeOrigin: true,
 });
 
 const app = express();
 // TODO: check indexer and its url
-app.all('/:indexer', function(req, res) {
-  const {indexer} = req.params;
-  let {to} = req.query;
+app.all('/:indexer', function (req, res) {
+  const { indexer } = req.params;
+  let { to } = req.query;
   if (!to) {
     to = req.headers.to;
   }
