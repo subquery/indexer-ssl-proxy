@@ -1,5 +1,6 @@
 import express from 'express';
 import httpProxy from 'http-proxy';
+import { ServerResponse } from "http";
 
 const proxy = httpProxy.createProxyServer({
   ignorePath: true,
@@ -20,7 +21,14 @@ app.all('/:indexer', function (req, res) {
     return;
   }
   res.setHeader('Access-Control-Allow-Origin', '*');
-  proxy.web(req, res, { target: to.toString() });
+  proxy.web(req, res, { target: to.toString() }, (err, req, res, target) => {
+    console.error(err);
+    (res as ServerResponse).writeHead(500, {
+      'Content-Type': 'text/plain'
+    });
+
+    res.end(err.message);
+  });
 });
 
 app.listen(process.env.PORT ?? 3000);
